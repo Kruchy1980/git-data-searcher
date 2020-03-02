@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git-Data-Searcher</title>
+    <!-- Bookmark icon -->
+    <link rel="icon" href="./bookmark-icon/github.png" type="icon/png" />
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="./search.css" />
+</head>
+
+<body>
+    <header>
+        <h1>GitHub Data Searcher</h1>
+    </header>
+    <section id="searcher-main">
+        <form action="#" id="searcher">
+            <label>Who are you looking for<span id="question" class="notvisible">?</span>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter user GitHub login ..."
+          />
+        </label>
+            <button id="generate">Generate</button>
+        </form>
+    </section>
+    <section id="display-data-main"></section>
+    <!-- <script src="./search.js"></script> -->
+
+    <script>
+        // Question mark visibility
+        // Variable
+        const questionMark = document.querySelector('#question');
+        // 1.Visibility function
+        const blinkingMark = () => {
+                questionMark.classList.toggle('notvisible');
+            }
+            // 1a. Visibility interval
+        setInterval(blinkingMark, 500);
+    </script>
+</body>
+
+</html>
