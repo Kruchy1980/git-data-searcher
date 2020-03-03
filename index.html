@@ -43,7 +43,9 @@
         const btnRepository = document.querySelector('#btnRepos');
         //1.3 AvAtar button
         const btnAvatar = document.querySelector('#btnAvatar');
-        // 1.4 DisplayArea
+        //1.4 Button Login
+        const btnLogin = document.querySelector('#btnLogin');
+        // 1.5 DisplayArea
         // // display div variable 1 step get 
         const displayArea = document.querySelector('#display-data-main');
         //1.5 Username variable - changable
@@ -54,6 +56,8 @@
         // 2.1 Main
         const genreate = () => {
             clearDisplay();
+            getUserLogin();
+            getAvatar()
             getRepos();
         };
         // 2.2 Get Repos
@@ -107,13 +111,14 @@
                 const result = await response.json()
                 console.log(result);
                 result.items.forEach(item => {
-                    console.log(item.avatar_url);
-                    displayArea.innerHTML = `<img src="${item.avatar_url}" alt="${item.login}/>`
+                    console.log(item.avatar_url, item.login);
+                    displayArea.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
                 });
             }
             // 2.4 Get userLogin
         const getUserLogin = async() => {
-                console.log(username.value);
+                console.log('click');
+                // console.log(username.value);
                 const url = `https://api.github.com/search/users?q=user:${username.value}`;
                 // // const displayArea = document.querySelector('#display-data-main');
 
@@ -123,7 +128,7 @@
                 console.log(result);
                 result.items.forEach(item => {
                     console.log(item.login);
-                    displayArea.innerHTML = `Name: ${item.login} `
+                    displayArea.innerHTML += `<div>Login: ${item.login}</div> `
                 });
             }
             // Clearing Display if new request
@@ -140,7 +145,7 @@
         //3.3 Get avatar
         btnAvatar.addEventListener('click', getAvatar);
         //3.4 Get userLogin
-        btnAvatar.addEventListener('click', getUserLogin);
+        btnLogin.addEventListener('click', getUserLogin);
         // // disarm the username searcher form
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();
