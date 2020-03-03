@@ -17,7 +17,7 @@
     </header>
     <section id="searcher-main">
         <form action="#" id="searcher">
-            <label>Who are you looking for<span id="question" class="notvisible">?</span>
+            <label>Who are you looking for<span id="userSearch">?</span>
           <input
             type="text"
             name="username"
@@ -25,22 +25,107 @@
             placeholder="Enter user GitHub login ..."
           />
         </label>
-            <button id="generate">Generate</button>
+            <button id="btnGenerate">Generate</button>
+            <button id="btnRepos">Repos</button>
+            <button id="btnAvatar">Avatar</button>
         </form>
     </section>
-    <section id="display-data-main"></section>
-    <!-- <script src="./search.js"></script> -->
+    <section id="display-data-main">
+    </section>
+    <script src="./search.js"></script>
 
     <script>
-        // Question mark visibility
-        // Variable
-        const questionMark = document.querySelector('#question');
-        // 1.Visibility function
-        const blinkingMark = () => {
-                questionMark.classList.toggle('notvisible');
+        //1. Variables
+        //1.1 Main button/ Generate button
+        const btnGenerate = document.querySelector('#btnGenerate');
+        //1.2 Repository button
+        const btnRepository = document.querySelector('#btnRepos');
+        //1.3 AvAtar button
+        const btnAvatar = document.querySelector('#btnAvatar');
+        // 1.4 DisplayArea
+        // // display div variable 1 step get 
+        const displayArea = document.querySelector('#display-data-main');
+        //1.5 Username variable - changable
+        let username = document.querySelector('#username');
+        //1.6 form of searcher
+        const searchForm = document.querySelector('#searcher');
+        //2. Functions
+        // 2.1 Main
+        const genreate = () => {
+            clearDisplay();
+            getRepos();
+        };
+        // 2.2 Get Repos
+        const getRepos = async() => {
+            //clearing the display if there is anything
+            // clearDisplay();
+            // getting infotmations about repos
+            // url variable - api url
+            const url = `https://api.github.com/search/repositories?q=user:${username.value}`;
+            // // // display div variable 1 step get 
+            // const displayArea = document.querySelector('#display-data-main');
+            // fetching the data variable
+            const response = await fetch(url);
+            // result variable jason parse response
+            const result = await response.json()
+                // for check
+                // console.log(result);/
+                // Now i want to get the repository full name to display in log
+            result.items.forEach(item => {
+                // no need but we can ad anchors for repositories 
+                // const createAnchor = document.createElement('a');
+                // // Add the href to anchor tag
+                // createAnchor.href = item.html_url;
+                // // Add the content to our anchor element
+                // createAnchor.textContent = item.full_name;
+                // console.log(createAnchor);
+                // remove anchor styles
+                // createAnchor.style.textDecoration = 'none';
+                // check
+                // Adding every element to the separate div
+                displayArea.innerHTML += `<div>${item.name}</div>`;
+                // Now we can add the anchor to our repositories
+                // //------ Just for my information
+                // //2nd version
+                // displayArea.innerHTML += `${createAnchor} <br>`;
+                // //--- 1 version
+                // displayArea.appendChild(createAnchor);
+                // // Create it in separqate line -need to add br
+                // // displayArea.appendChild(document.createElement('br'));
+            });
+        }
+
+        // 2.3 Get Avatar
+        const getAvatar = async() => {
+            console.log(username.value);
+            const url = 'https://api.github.com//legacy/user/search/:Kruchy1980';
+            // // const displayArea = document.querySelector('#display-data-main');
+
+            const response = await fetch(url);
+
+            const result = await response.json()
+            console.log(results);
+            // result.items.forEach(item => {
+            //     displayArea.innerHTML += `<img src="${item.avatar_url}" width="50px" height="50px/>`;
+            // });
+        }
+        const clearDisplay = () => {
+                if (displayArea.innerHTML) {
+                    displayArea.innerHTML = '';
+                }
             }
-            // 1a. Visibility interval
-        setInterval(blinkingMark, 500);
+            //3. EventListeners
+            //3.1 Main/Generate button
+        btnGenerate.addEventListener('click', genreate);
+        //3.2 Get repos on btnRepos click
+        // btnRepos.addEventListener('click', getRepos);
+        //3.3 Get avatar
+        btnAvatar.addEventListener('click', getAvatar);
+        // disarm the username searcher form
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // console.log(username.value);
+        })
     </script>
 </body>
 

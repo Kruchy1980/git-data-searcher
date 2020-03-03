@@ -11,9 +11,10 @@ body {
 /* Header style */
 
 header {
-    background-color: #777;
+    background-color: transparent;
     color: #ff0000;
     text-align: center;
+    font-size: 2em;
     border-bottom: 1px solid #444;
     border-radius: 0 0 20px 20px;
     margin-bottom: 10px;
@@ -33,6 +34,7 @@ header h1 {
 #searcher label {
     margin-left: 10%;
     font-size: 1.4em;
+    font-weight: bold;
 }
 
 
@@ -51,10 +53,10 @@ header h1 {
 
 /* Search  button */
 
-#generate {
+#btnGenerate {
     font-size: 1.4em;
     border-radius: 20px;
-    background-color: transparent;
+    background-color: #fff;
     outline: none;
     border: 1px solid #00ff00;
     margin-left: 9%;
@@ -62,7 +64,7 @@ header h1 {
     color: #00ff00;
 }
 
-#generate:hover {
+#btnGenerate:hover {
     background-color: #00ff00;
     color: #fff;
 }
