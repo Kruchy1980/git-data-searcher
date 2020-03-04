@@ -29,6 +29,7 @@
             <button id="btnRepos">Repos</button>
             <button id="btnAvatar">Avatar</button>
             <button id="btnLogin">UserLogin</button>
+            <button id="btnLangTry">LNG</button>
         </form>
     </section>
     <section id="display-data-main">
@@ -45,7 +46,9 @@
         const btnAvatar = document.querySelector('#btnAvatar');
         //1.4 Button Login
         const btnLogin = document.querySelector('#btnLogin');
-        // 1.5 DisplayArea
+        //1.5 Button LangTry
+        const btnLangTry = document.querySelector('#btnLangTry');
+        // 1.6 DisplayArea
         // // display div variable 1 step get 
         const displayArea = document.querySelector('#display-data-main');
         //1.5 Username variable - changable
@@ -54,10 +57,10 @@
         const searchForm = document.querySelector('#searcher');
         //2. Functions
         // 2.1 Main
-        const genreate = () => {
+        const generate = () => {
             clearDisplay();
-            getUserLogin();
-            getAvatar()
+            getUserData();
+            // getAvatar()
             getRepos();
         };
         // 2.2 Get Repos
@@ -66,7 +69,7 @@
             // clearDisplay();
             // getting infotmations about repos
             // url variable - api url
-            const url = `https://api.github.com/search/repositories?q=user:${username.value}`;
+            const url = `https://api.github.com/search/repositories?q=user:${username.value}+in:user&per_page=50`;
             // // // display div variable 1 step get 
             // const displayArea = document.querySelector('#display-data-main');
             // fetching the data variable
@@ -74,8 +77,8 @@
             // result variable jason parse response
             const result = await response.json()
                 // for check
-                // console.log(result);/
-                // Now i want to get the repository full name to display in log
+            console.log(result);
+            // Now i want to get the repository full name to display in log
             result.items.forEach(item => {
                 // no need but we can ad anchors for repositories 
                 // const createAnchor = document.createElement('a');
@@ -88,7 +91,7 @@
                 // createAnchor.style.textDecoration = 'none';
                 // check
                 // Adding every element to the separate div
-                displayArea.innerHTML += `<div>${item.name}</div>`;
+                displayArea.innerHTML += `<div class="repo-label"><div class="repos-list"><span>Repositories:</span><ul><li>${item.name}</li></ul></div>`;
                 // Now we can add the anchor to our repositories
                 // //------ Just for my information
                 // //2nd version
@@ -116,20 +119,59 @@
                 });
             }
             // 2.4 Get userLogin
-        const getUserLogin = async() => {
-                console.log('click');
-                // console.log(username.value);
-                const url = `https://api.github.com/search/users?q=user:${username.value}`;
+        const getUserData = async() => {
+            console.log('click');
+            // console.log(username.value);
+            // const url = `https://api.github.com/search/users?q=user:${username.value}`;
+            const url = `https://api.github.com/users/${username.value}`;
+            // // const displayArea = document.querySelector('#display-data-main');
+
+            const response = await fetch(url);
+
+            const result = await response.json()
+            console.log(result);
+            console.log(result.login);
+            console.log(result.location);
+            console.log(result.email);
+            console.log(result.name);
+            console.log(result.avatar_url);
+            console.log(result.public_repos);
+            // result.items.forEach(item => {
+            //     console.log(item.login);
+            //     displayArea.innerHTML += `<div>Login: ${item.login}
+            //         Page: <a href="${item.html_url}">${item.login}</a></div>
+            //          `
+            // });
+            // <
+            // span > Location < /span>: ${ result.location } <br> <
+            // span > Login: < /span> ${result.login} < /
+            //     div >
+
+            displayArea.innerHTML = `                <div class="user-avatar"><img src="${result.avatar_url}" alt="${result.name}" width="32px" height="32px"/><div>`
+
+            displayArea.innerHTML += `<div class="base-data"> <p>Github Data</p>
+                <span>Username:</span> <ul><li>${result.login}</li></ul> <br>
+                <span>Github Account:</span> <ul><li><a href="${result.html_url}">${result.html_url}</a></li></ul></div>`
+
+            ;
+        }
+        const getLangTry = async() => {
+                const url = `https://api.github.com/users/${username.value}/repos`;
                 // // const displayArea = document.querySelector('#display-data-main');
 
                 const response = await fetch(url);
 
                 const result = await response.json()
                 console.log(result);
-                result.items.forEach(item => {
-                    console.log(item.login);
-                    displayArea.innerHTML += `<div>Login: ${item.login}</div> `
+                let languageCounter = 0;
+                result.forEach(element => {
+                    // console.log(element.language);
+                    // console.log(element.language.value);
+                    languageCounter += element[0];
+
                 });
+                console.log(languageCounter);
+
             }
             // Clearing Display if new request
         const clearDisplay = () => {
@@ -139,13 +181,15 @@
             }
             //3. EventListeners
             //3.1 Main/Generate button
-        btnGenerate.addEventListener('click', genreate);
+        btnGenerate.addEventListener('click', generate);
         //3.2 Get repos on btnRepos click
-        // btnRepos.addEventListener('click', getRepos);
+        btnRepos.addEventListener('click', getRepos);
         //3.3 Get avatar
         btnAvatar.addEventListener('click', getAvatar);
         //3.4 Get userLogin
-        btnLogin.addEventListener('click', getUserLogin);
+        btnLogin.addEventListener('click', getUserData);
+        //3.5 getLangTry
+        btnLangTry.addEventListener('click', getLangTry);
         // // disarm the username searcher form
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();

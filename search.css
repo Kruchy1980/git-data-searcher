@@ -70,6 +70,91 @@ header h1 {
 }
 
 
+/* Display style */
+
+#display-data-main {
+    margin: 20px auto;
+    width: 500px;
+    height: 400px;
+    background-color: #fff;
+    padding: 5%;
+    border: 10px solid #222;
+    border-radius: 30px;
+}
+
+
+/*  Basic data display */
+
+.base-data {
+    float: left;
+    width: 80%;
+}
+
+
+/* Header/title paragraph */
+
+.base-data p {
+    margin-top: 0;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+
+/* Base-data spans */
+
+.base-data span {
+    width: 40%;
+    display: block;
+    font-weight: bold;
+    float: left;
+}
+
+
+/* Base Data ul */
+
+.base-data ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* User Avatar */
+
+.user-avatar {
+    width: 20%;
+    float: right;
+    text-align: end;
+}
+
+
+/* Repos list */
+
+.repos-list {
+    /* position: relative;
+    top: 30%; */
+    margin-top: 5%;
+    width: 100%;
+}
+
+
+/* Span repos list */
+
+.repos-list span {
+    width: 30%;
+    display: block;
+    font-weight: bold;
+    float: left;
+}
+
+
+/* Repo-list ul */
+
+.repos-list ul {
+    margin: 0;
+    padding: 0;
+}
+
+
 /* Question mark visibility */
 
 .notvisible {
