@@ -74,8 +74,8 @@ header h1 {
 
 #display-data-main {
     margin: 20px auto;
-    width: 500px;
-    height: 400px;
+    width: 80%;
+    height: 45vh;
     background-color: #fff;
     padding: 5%;
     border: 10px solid #222;
@@ -86,85 +86,18 @@ header h1 {
 /*  Basic data display */
 
 
-/* .base-data {
-    float: left;
-    width: 80%;
-} */
+/* user avatar */
 
 
-/* Header/title paragraph */
+/* user info */
 
-
-/* .base-data p {
+#user-info h2 {
     margin-top: 0;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bold;
-} */
-
-
-/* Base-data spans */
-
-
-/* .base-data span {
-    width: 40%;
-    display: block;
-    font-weight: bold;
+    width: 75%;
     float: left;
-} */
-
-
-/* Base Data ul */
-
-
-/* .base-data ul {
-    margin: 0;
-    padding: 0;
-} */
-
-
-/* User Avatar */
-
-
-/* .user-avatar {
-    width: 20%;
-    float: right;
-    text-align: end;
 }
- */
-
-
-/* Repos list */
-
-
-/* .repos-list {
-    /* position: relative;
-    top: 30%; */
-
-
-/* margin-top: 28%;
-    width: 80%;
-} */
-
-
-/* Span repos list */
-
-
-/* .repos-list span {
-    width: 30%;
-    display: block;
-    font-weight: bold;
-    float: left;
-} */
-
-
-/* Repo-list ul */
-
-
-/* .repos-list ul {
-    float: left;
-    margin: 0;
-    padding: 0;
-} */
 
 
 /* Question mark visibility */

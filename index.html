@@ -39,7 +39,7 @@
             <div id="login">Username:</div>
             <div id="github-account">Github Account:</div>
             <div id="repositories">Repositories:</div>
-            <div id="languages">Languages:</div>
+            <div id="languages"></div>
         </div>
     </section>
     <script src="./search.js"></script>
@@ -52,18 +52,28 @@
         const displayAvatar = document.querySelector('#user-avatar');
         //1.2 Repository button
         const btnRepository = document.querySelector('#btnRepos');
+        //1.2 User Info
+        const displayUserInfo = document.querySelector('#userInfo');
         //1.3 AvAtar button
         const btnAvatar = document.querySelector('#btnAvatar');
+        //1.3 Login box
+        const displayLogin = document.querySelector('#login');
         //1.4 Button Login
         const btnLogin = document.querySelector('#btnLogin');
+        //1.4 Display GithubAccount
+        const displayGithubAccount = document.querySelector('#github-account');
         //1.5 Button LangTry
         const btnLangTry = document.querySelector('#btnLangTry');
-        // 1.6 DisplayArea
-        // // display div variable 1 step get 
-        const displayArea = document.querySelector('#display-data-main');
-        //1.5 Username variable - changable
+        //1.5 display repositories
+        const displayRepositories = document.querySelector('#repositories');
+        //1.6 Display languages
+        const displayLanguages = document.querySelector('#languages');
+        // // 1.7 DisplayArea
+        // // // display div variable 1 step get 
+        // const displayArea = document.querySelector('#display-data-main');
+        //1.7 Username variable - changable
         let username = document.querySelector('#username');
-        //1.6 form of searcher
+        //1.8 form of searcher
         const searchForm = document.querySelector('#searcher');
         //2. Functions
         // 2.1 Main
@@ -138,7 +148,7 @@
 
             const response = await fetch(url);
 
-            const result = await response.json()
+            const result = await response.json();
             console.log(result);
             console.log(result.login);
             console.log(result.location);
@@ -169,59 +179,45 @@
             // getRepos();
         }
         const getLangTry = async() => {
-                const url = `https://api.github.com/users/${username.value}/repos`;
-                // // const displayArea = document.querySelector('#display-data-main');
+            const url = `https://api.github.com/users/${username.value}/repos`;
+            // // const displayArea = document.querySelector('#display-data-main');
 
-                const response = await fetch(url);
+            const response = await fetch(url);
 
-                const result = await response.json()
-                    // console.log(result);
-                    // let languageCounter = 0;
-                    // console.log(result.language);
-                console.log(result.length);
-                // languages calculating
-                let count = {};
-                result.map(el => count[el.language] = (count[el.language] || 0) + 1);
-                console.log(count);
-
-                for (key in count) {
-                    if (count.hasOwnProperty(key)) {
-                        let language = Object.keys(count).join(',');
-                        let langArray = language.split(',');
-                        // console.log(language);
-                        // console.log(langArray);
-                        // console.log(langArray[0]);
-
-                        let value = count[key];
-
-                        console.log(Math.round((value / result.length) * 100) + '%');
+            const result = await response.json();
+            // Counter of elements to display
+            let counter = 0;
+            // languages calculation
+            let count = {};
+            result.map(el => count[el.language] = (count[el.language] || 0) + 1);
+            // console.log(count); //Object
+            // empty array for percentaqge
+            // let percentageArray = []
+            // Keywords extraction
+            for (key in count) {
+                if (count.hasOwnProperty(key)) {
+                    // extracting languages names
+                    const language = Object.keys(count).join(',');
+                    // extracting languages values
+                    const langValues = Object.values(count);
+                    //creatihg array with keywords
+                    const langArray = language.split(',');
+                    // Creating an array of percentage usage of languages
+                    let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
+                    console.log(langPercentage);
+                    console.log(langArray);
+                    console.log(counter);
+                    // language display
+                    displayLanguages.innerHTML = `<span>Languages:</span>`
+                    for (counter = 0; counter < langArray.length; counter++) {
+                        displayLanguages.innerHTML += `<ul><li>${langArray[counter]=== 'null' ? 'No Data' : langArray[counter] }: ${langPercentage[counter]}</li></ul>`
                     }
                 }
-
-                //---------------------
-                //----------------.log--------
-                // result.forEach(element => {
-                //     // console.log('click');
-                //     // console.log(element.owner.login);
-                //     // // repo name
-                //     // console.log(element.name);
-                //     // // repo url
-                //     // console.log(element.html_url);
-                //     // // repo description
-                //     // console.log(element.description)
-                //     //     // user avatar
-                //     // console.log(element.owner.avatar_url);
-                //     // language
-                //     console.log(element.language);
-                //     // displaying data
-                //     //calculating languages
-
-                // });
-
-                // console.log(languageCounter);
-
             }
-            // Clearing Display if new request
+        }
+
+
+        // Clearing Display if new request
         const clearDisplay = () => {
                 if (displayArea.innerHTML) {
                     displayArea.innerHTML = '';
