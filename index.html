@@ -26,10 +26,7 @@
           />
         </label>
             <button id="btnGenerate">Generate</button>
-            <button id="btnRepos">Repos</button>
-            <!-- <button id="btnAvatar">Avatar</button>
-            <button id="btnLogin">UserLogin</button> -->
-            <button id="btnLangTry">LNG</button>
+
         </form>
     </section>
     <section id="display-data-main">
@@ -40,7 +37,6 @@
         <div id="login"></div>
         <div id="github-account"></div>
         <div id="repositories">
-            <!-- <ul id="repos-list"></ul> -->
         </div>
         <ul id="repos-list"></ul>
         <div id="languages"></div>
@@ -48,40 +44,31 @@
 
     </section>
     <script src="./search.js"></script>
+    <script src="./main-log.js"></script>
 
-    <script>
+    <!-- <script>
         //1. Variables
         //1.1 Main button/ Generate button
         const btnGenerate = document.querySelector('#btnGenerate');
         //1.1 avatar display
         const displayAvatar = document.querySelector('#user-avatar');
-        //1.2 Repository button
-        const btnRepository = document.querySelector('#btnRepos');
         //1.2 User Info
         const displayUserInfo = document.querySelector('#userInfo');
-        //1.3 AvAtar button
-        const btnAvatar = document.querySelector('#btnAvatar');
         //1.3 Login box
         const displayLogin = document.querySelector('#login');
-        //1.4 Button Login
-        const btnLogin = document.querySelector('#btnLogin');
         //1.4 Display GithubAccount
         const displayGithubAccount = document.querySelector('#github-account');
-        //1.5 Button LangTry
-        const btnLangTry = document.querySelector('#btnLangTry');
         //1.5 display repositories
         const displayRepositories = document.querySelector('#repositories');
         //1.6 Display languages
         const displayLanguages = document.querySelector('#languages');
         // 1.7 Repos List
         const reposList = document.querySelector('#repos-list');
-        // 1. Languages List
+        // 1.8 Languages List
         const languagesList = document.querySelector('#languages-list');
-        // //1.7  display div variable 1 step get 
-        // const displayArea = document.querySelector('#display-data-main');
-        //1.7 Username variable - changable
+        //1.10 Username variable - changable
         let username = document.querySelector('#username');
-        //1.8 form with searcher
+        //1.11 form with searcher
         const searchForm = document.querySelector('#searcher');
         //2. Functions
         // 2.1 Main
@@ -97,6 +84,7 @@
         };
         // 2.2 Get Repos
         const getRepos = async() => {
+                reposList.innerHTML = '';
                 //Public repositories of user search
                 const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
 
@@ -104,7 +92,6 @@
                 const response = await fetch(url);
                 // result variable jason parse response
                 const result = await response.json()
-                    // firstly we need to create the array of names
                     //creating array from with specified data from results
                 let result1 = result.map(el => el.name)
                 let result2 = result.map(el => el.html_url);
@@ -119,20 +106,23 @@
             }
             // 2.3 Get Avatar
         const getAvatar = async() => {
-                // console.log(username.value);
+                displayAvatar.innerHTML = '';
+
                 const url = `https://api.github.com/search/users?q=user:${username.value}`;
 
                 const response = await fetch(url);
 
                 const result = await response.json()
-                    // console.log(result);
+
                 result.items.forEach(item => {
-                    // console.log(item.avatar_url, item.login);
+
                     displayAvatar.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
                 });
             }
             // 2.4 Get userLogin
         const getUserData = async() => {
+            //clearing field
+            displayGithubAccount.innerHTML = '';
             const url = `https://api.github.com/users/${username.value}`;
 
             const response = await fetch(url);
@@ -146,13 +136,13 @@
             displayGithubAccount.innerHTML += `<ul><li><a href="${result.html_url}" target="_blank">${result.html_url}</a></li></ul>`
         }
         const getLangAverage = async() => {
+            //clearing field
+            languagesList.innerHTML = '';
             const url = `https://api.github.com/users/${username.value}/repos`;
 
             const response = await fetch(url);
 
             const result = await response.json();
-            // Counter of elements to display
-            // let counter = 0;
             // languages calculation
             let count = {};
             result.map(el => count[el.language] = (count[el.language] || 0) + 1);
@@ -167,43 +157,25 @@
                     const langArray = language.split(',');
                     // Creating an array of percentage usage of languages
                     let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
-                    // console.log(langPercentage);
-                    console.log(langArray.length);
 
                     // languages display
                     displayLanguages.innerHTML = `<span>Languages:</span>`
 
-                    for (let i = 0; i < langArray.length; i++) {
-                        console.log(langArray[i]);
+                    for (let i = 0; i < (langArray.length); i++) {
                         languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
                     }
                 }
             }
         }
 
-
-        // // Clearing Display if new request
-        // const clearDisplay = () => {
-        //         if (displayArea.innerHTML) {
-        //             displayArea.innerHTML = '';
-        //         }
-        //     }
         //3. EventListeners
         //3.1 Main/Generate button
         btnGenerate.addEventListener('click', generate);
-        //3.2 Get repos on btnRepos click
-        btnRepos.addEventListener('click', getRepos);
-        // //3.3 Get avatar
-        // btnAvatar.addEventListener('click', getAvatar);
-        // //3.4 Get userLogin
-        // btnLogin.addEventListener('click', getUserData);
-        // //3.5 getLangTry
-        btnLangTry.addEventListener('click', getLangAverage);
         // // disarm the username searcher form
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();
         })
-    </script>
+    </script> -->
 </body>
 
 </html>
