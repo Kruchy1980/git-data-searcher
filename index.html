@@ -44,7 +44,7 @@
         </div>
         <ul id="repos-list"></ul>
         <div id="languages"></div>
-        <!-- <ul id="languages-list"></ul> -->
+        <ul id="languages-list"></ul>
 
     </section>
     <script src="./search.js"></script>
@@ -115,22 +115,7 @@
                     reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
                 }
 
-                // console.log(result1);
-                // iterating through the repository to get specified data
-                // for (let i = 0; i < result.length; i++) {
-                //     // console.log(result[i].name);
-                //     // console.log(result[i].html_url);
-                //     console.log(result1[i]);
-                //     console.log(result2[i]);
 
-                //     //Display the label
-                //     displayRepositories.innerHTML = `<span>Repositories: </span>`;
-                //     //Displaly the repositories
-                //     // displayRepositories.innerHTML += `<li>$${result[i].name}<br><a href="${result[i].html_url}">${result[i].html_url}</a></li>`;
-
-                //     // try
-                //     displayRepositories.innerHTML += `<li>${result1[i]}</li>`
-                // }
             }
             // 2.3 Get Avatar
         const getAvatar = async() => {
@@ -183,12 +168,14 @@
                     // Creating an array of percentage usage of languages
                     let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
                     // console.log(langPercentage);
-                    // console.log(langArray);
+                    console.log(langArray.length);
 
-                    // language display
+                    // languages display
                     displayLanguages.innerHTML = `<span>Languages:</span>`
+
                     for (let i = 0; i < langArray.length; i++) {
-                        displayLanguages.innerHTML += `<div><li>${langArray[i] === 'null' ? 'No Data' : langArray[i] }: ${langPercentage[i]}</li></div>`;
+                        console.log(langArray[i]);
+                        languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
                     }
                 }
             }
