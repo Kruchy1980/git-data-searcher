@@ -35,12 +35,12 @@
     <section id="display-data-main">
         <div id="user-avatar"></div>
         <div id="user-info">
-            <h2>Github Data</h2>
-            <div id="login">Username:</div>
-            <div id="github-account">Github Account:</div>
-            <div id="repositories">Repositories:</div>
-            <div id="languages"></div>
+            <h2>Github Data: </h2>
         </div>
+        <div id="login"></div>
+        <div id="github-account"></div>
+        <div id="repositories"></div>
+        <div id="languages"></div>
     </section>
     <script src="./search.js"></script>
 
@@ -73,57 +73,43 @@
         // const displayArea = document.querySelector('#display-data-main');
         //1.7 Username variable - changable
         let username = document.querySelector('#username');
-        //1.8 form of searcher
+        //1.8 form with searcher
         const searchForm = document.querySelector('#searcher');
         //2. Functions
         // 2.1 Main
         const generate = () => {
             clearDisplay();
+            getAvatar();
             getUserData();
-            // getAvatar()
             getRepos();
+            getLangAverage()
         };
         // 2.2 Get Repos
         const getRepos = async() => {
-            //clearing the display if there is anything
-            // clearDisplay();
-            // getting infotmations about repos
-            // url variable - api url
-            const url = `https://api.github.com/search/repositories?q=user:${username.value}`;
-            // // // display div variable 1 step get 
-            // const displayArea = document.querySelector('#display-data-main');
-            // fetching the data variable
-            const response = await fetch(url);
-            // result variable jason parse response
-            const result = await response.json()
-                // for check
-            console.log(result);
-            // Now i want to get the repository full name to display in log
-            result.items.forEach(item => {
-                // no need but we can ad anchors for repositories 
-                // const createAnchor = document.createElement('a');
-                // // Add the href to anchor tag
-                // createAnchor.href = item.html_url;
-                // // Add the content to our anchor element
-                // createAnchor.textContent = item.full_name;
-                // console.log(createAnchor);
-                // remove anchor styles
-                // createAnchor.style.textDecoration = 'none';
-                // check
-                // Adding every element to the separate div
-                displayArea.innerHTML += `<div class="repo-box"><div class="repos-list"><span>Repositories:</span><ul><li>${item.name}</li></ul></div>`;
-                // Now we can add the anchor to our repositories
-                // //------ Just for my information
-                // //2nd version
-                // displayArea.innerHTML += `${createAnchor} <br>`;
-                // //--- 1 version
-                // displayArea.appendChild(createAnchor);
-                // // Create it in separqate line -need to add br
-                // // displayArea.appendChild(document.createElement('br'));
-            });
-        }
+                //Repositories search
+                const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
 
-        // 2.3 Get Avatar
+                // fetching the data variable
+                const response = await fetch(url);
+                // result variable jason parse response
+                const result = await response.json()
+                    // for check
+                console.log(result);
+                console.log(result.length);
+                let counter = 0
+                    // iterating through the repository to get specified data
+                for (counter = 0; counter < result.length; counter++) {
+                    console.log(result[counter].name);
+                    console.log(result[counter].html_url);
+
+                    //Display the label
+                    displayRepositories.innerHTML = `<span>Repositories: </span>`;
+                    //Displaly the repositories
+
+
+                }
+            }
+            // 2.3 Get Avatar
         const getAvatar = async() => {
                 // console.log(username.value);
                 const url = `https://api.github.com/search/users?q=user:${username.value}`;
@@ -132,19 +118,16 @@
                 const response = await fetch(url);
 
                 const result = await response.json()
-                console.log(result);
+                    // console.log(result);
                 result.items.forEach(item => {
-                    console.log(item.avatar_url, item.login);
-                    displayArea.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
+                    // console.log(item.avatar_url, item.login);
+                    displayAvatar.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
                 });
             }
             // 2.4 Get userLogin
         const getUserData = async() => {
             console.log('click');
-            // console.log(username.value);
-            // const url = `https://api.github.com/search/users?q=user:${username.value}`;
             const url = `https://api.github.com/users/${username.value}`;
-            // // const displayArea = document.querySelector('#display-data-main');
 
             const response = await fetch(url);
 
@@ -166,21 +149,18 @@
             // <
             // span > Location < /span>: ${ result.location } <br> <
             // span > Login: < /span> ${result.login} < /
-            //     div >
+            //     div >getLangTry
+            // login display
+            displayLogin.innerHTML = `<span>Username: </span>`;
+            displayLogin.innerHTML += `<ul><li>${result.login}</li></ul>`
+                // Github account display
+            displayGithubAccount.innerHTML = `<span>Github Account: </span>`
+            displayGithubAccount.innerHTML += `<ul><li><a href="${result.html_url}" target="_blank">${result.html_url}</a></li></ul>`
 
-            displayArea.innerHTML = `                <div class="user-avatar"><img src="${result.avatar_url}" alt="${result.name}" width="32px" height="32px"/><div>`
 
-            displayArea.innerHTML += `<div class="base-data"> <p>Github Data</p>
-                <span>Username:</span> <ul><li>${result.login}</li></ul> <br>
-                <span>Github Account:</span> <ul><li><a href="${result.html_url}">${result.html_url}</a></li></ul>`;
-
-            // displayArea.innerHTML += `<div></div>`
-            // repos get and display
-            // getRepos();
         }
-        const getLangTry = async() => {
+        const getLangAverage = async() => {
             const url = `https://api.github.com/users/${username.value}/repos`;
-            // // const displayArea = document.querySelector('#display-data-main');
 
             const response = await fetch(url);
 
@@ -190,9 +170,6 @@
             // languages calculation
             let count = {};
             result.map(el => count[el.language] = (count[el.language] || 0) + 1);
-            // console.log(count); //Object
-            // empty array for percentaqge
-            // let percentageArray = []
             // Keywords extraction
             for (key in count) {
                 if (count.hasOwnProperty(key)) {
@@ -233,7 +210,7 @@
         //3.4 Get userLogin
         btnLogin.addEventListener('click', getUserData);
         //3.5 getLangTry
-        btnLangTry.addEventListener('click', getLangTry);
+        btnLangTry.addEventListener('click', getLangAverage);
         // // disarm the username searcher form
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();
