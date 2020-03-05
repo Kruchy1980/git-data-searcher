@@ -27,8 +27,8 @@
         </label>
             <button id="btnGenerate">Generate</button>
             <button id="btnRepos">Repos</button>
-            <button id="btnAvatar">Avatar</button>
-            <button id="btnLogin">UserLogin</button>
+            <!-- <button id="btnAvatar">Avatar</button>
+            <button id="btnLogin">UserLogin</button> -->
             <button id="btnLangTry">LNG</button>
         </form>
     </section>
@@ -39,8 +39,13 @@
         </div>
         <div id="login"></div>
         <div id="github-account"></div>
-        <div id="repositories"></div>
+        <div id="repositories">
+            <!-- <ul id="repos-list"></ul> -->
+        </div>
+        <ul id="repos-list"></ul>
         <div id="languages"></div>
+        <!-- <ul id="languages-list"></ul> -->
+
     </section>
     <script src="./search.js"></script>
 
@@ -68,8 +73,11 @@
         const displayRepositories = document.querySelector('#repositories');
         //1.6 Display languages
         const displayLanguages = document.querySelector('#languages');
-        // // 1.7 DisplayArea
-        // // // display div variable 1 step get 
+        // 1.7 Repos List
+        const reposList = document.querySelector('#repos-list');
+        // 1. Languages List
+        const languagesList = document.querySelector('#languages-list');
+        // //1.7  display div variable 1 step get 
         // const displayArea = document.querySelector('#display-data-main');
         //1.7 Username variable - changable
         let username = document.querySelector('#username');
@@ -78,42 +86,56 @@
         //2. Functions
         // 2.1 Main
         const generate = () => {
-            clearDisplay();
-            getAvatar();
-            getUserData();
-            getRepos();
-            getLangAverage()
+            if (username.value) {
+                getAvatar();
+                getUserData();
+                getRepos();
+                getLangAverage()
+            } else {
+                alert('Enter user Github login!');
+            }
         };
         // 2.2 Get Repos
         const getRepos = async() => {
-                //Repositories search
+                //Public repositories of user search
                 const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
 
                 // fetching the data variable
                 const response = await fetch(url);
                 // result variable jason parse response
                 const result = await response.json()
-                    // for check
-                console.log(result);
-                console.log(result.length);
-                let counter = 0
-                    // iterating through the repository to get specified data
-                for (counter = 0; counter < result.length; counter++) {
-                    console.log(result[counter].name);
-                    console.log(result[counter].html_url);
-
-                    //Display the label
-                    displayRepositories.innerHTML = `<span>Repositories: </span>`;
-                    //Displaly the repositories
-
-
+                    // firstly we need to create the array of names
+                    //creating array from with specified data from results
+                let result1 = result.map(el => el.name)
+                let result2 = result.map(el => el.html_url);
+                // repositories label
+                displayRepositories.innerHTML = `<span>Repositories: <span>`;
+                //Displayung list of repositories
+                for (let i = 0; i < result1.length; i++) {
+                    reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
                 }
+
+                // console.log(result1);
+                // iterating through the repository to get specified data
+                // for (let i = 0; i < result.length; i++) {
+                //     // console.log(result[i].name);
+                //     // console.log(result[i].html_url);
+                //     console.log(result1[i]);
+                //     console.log(result2[i]);
+
+                //     //Display the label
+                //     displayRepositories.innerHTML = `<span>Repositories: </span>`;
+                //     //Displaly the repositories
+                //     // displayRepositories.innerHTML += `<li>$${result[i].name}<br><a href="${result[i].html_url}">${result[i].html_url}</a></li>`;
+
+                //     // try
+                //     displayRepositories.innerHTML += `<li>${result1[i]}</li>`
+                // }
             }
             // 2.3 Get Avatar
         const getAvatar = async() => {
                 // console.log(username.value);
                 const url = `https://api.github.com/search/users?q=user:${username.value}`;
-                // // const displayArea = document.querySelector('#display-data-main');
 
                 const response = await fetch(url);
 
@@ -126,38 +148,17 @@
             }
             // 2.4 Get userLogin
         const getUserData = async() => {
-            console.log('click');
             const url = `https://api.github.com/users/${username.value}`;
 
             const response = await fetch(url);
 
             const result = await response.json();
-            console.log(result);
-            console.log(result.login);
-            console.log(result.location);
-            console.log(result.email);
-            console.log(result.name);
-            console.log(result.avatar_url);
-            console.log(result.public_repos);
-            console.log(result.repos_url);
-            // result.items.forEach(item => {
-            //     console.log(item.login);
-            //     displayArea.innerHTML += `<div>Login: ${item.login}
-            //         Page: <a href="${item.html_url}">${item.login}</a></div>
-            //          `
-            // });
-            // <
-            // span > Location < /span>: ${ result.location } <br> <
-            // span > Login: < /span> ${result.login} < /
-            //     div >getLangTry
-            // login display
+
             displayLogin.innerHTML = `<span>Username: </span>`;
             displayLogin.innerHTML += `<ul><li>${result.login}</li></ul>`
                 // Github account display
             displayGithubAccount.innerHTML = `<span>Github Account: </span>`
             displayGithubAccount.innerHTML += `<ul><li><a href="${result.html_url}" target="_blank">${result.html_url}</a></li></ul>`
-
-
         }
         const getLangAverage = async() => {
             const url = `https://api.github.com/users/${username.value}/repos`;
@@ -166,7 +167,7 @@
 
             const result = await response.json();
             // Counter of elements to display
-            let counter = 0;
+            // let counter = 0;
             // languages calculation
             let count = {};
             result.map(el => count[el.language] = (count[el.language] || 0) + 1);
@@ -181,40 +182,39 @@
                     const langArray = language.split(',');
                     // Creating an array of percentage usage of languages
                     let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
-                    console.log(langPercentage);
-                    console.log(langArray);
-                    console.log(counter);
+                    // console.log(langPercentage);
+                    // console.log(langArray);
+
                     // language display
                     displayLanguages.innerHTML = `<span>Languages:</span>`
-                    for (counter = 0; counter < langArray.length; counter++) {
-                        displayLanguages.innerHTML += `<ul><li>${langArray[counter]=== 'null' ? 'No Data' : langArray[counter] }: ${langPercentage[counter]}</li></ul>`
+                    for (let i = 0; i < langArray.length; i++) {
+                        displayLanguages.innerHTML += `<div><li>${langArray[i] === 'null' ? 'No Data' : langArray[i] }: ${langPercentage[i]}</li></div>`;
                     }
                 }
             }
         }
 
 
-        // Clearing Display if new request
-        const clearDisplay = () => {
-                if (displayArea.innerHTML) {
-                    displayArea.innerHTML = '';
-                }
-            }
-            //3. EventListeners
-            //3.1 Main/Generate button
+        // // Clearing Display if new request
+        // const clearDisplay = () => {
+        //         if (displayArea.innerHTML) {
+        //             displayArea.innerHTML = '';
+        //         }
+        //     }
+        //3. EventListeners
+        //3.1 Main/Generate button
         btnGenerate.addEventListener('click', generate);
         //3.2 Get repos on btnRepos click
         btnRepos.addEventListener('click', getRepos);
-        //3.3 Get avatar
-        btnAvatar.addEventListener('click', getAvatar);
-        //3.4 Get userLogin
-        btnLogin.addEventListener('click', getUserData);
-        //3.5 getLangTry
+        // //3.3 Get avatar
+        // btnAvatar.addEventListener('click', getAvatar);
+        // //3.4 Get userLogin
+        // btnLogin.addEventListener('click', getUserData);
+        // //3.5 getLangTry
         btnLangTry.addEventListener('click', getLangAverage);
         // // disarm the username searcher form
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            // console.log(username.value);
         })
     </script>
 </body>
