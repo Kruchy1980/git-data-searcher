@@ -48,7 +48,7 @@ const getRepos = async() => {
         let result2 = result.map(el => el.html_url);
         // repositories label
         displayRepositories.innerHTML = `<span>Repositories: <span>`;
-        //Displayung list of repositories
+        //Displaying list of repositories
         for (let i = 0; i < result1.length; i++) {
             reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
         }
@@ -98,25 +98,20 @@ const getLangAverage = async() => {
         // languages calculation
         let count = {};
         result.map(el => count[el.language] = (count[el.language] || 0) + 1);
-        // Keywords extraction
-        for (key in count) {
-            if (count.hasOwnProperty(key)) {
-                // extracting languages names
-                const language = Object.keys(count).join(',');
-                // extracting languages values
-                const langValues = Object.values(count);
-                //creatihg array with keywords
-                const langArray = language.split(',');
-                // Creating an array of percentage usage of languages
-                let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
+        // extracting languages names
+        const language = Object.keys(count).join(',');
+        // extracting languages values
+        const langValues = Object.values(count);
+        //creatihg array with keywords
+        const langArray = language.split(',');
+        // Creating an array of percentage usage of languages
+        let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
 
-                // languages display
-                displayLanguages.innerHTML = `<span>Languages:</span>`
+        // languages display
+        displayLanguages.innerHTML = `<span>Languages:</span>`
 
-                for (let i = 0; i < (langArray.length); i++) {
-                    languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
-                }
-            }
+        for (let i = 0; i < (langArray.length); i++) {
+            languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
         }
     }
     //3. EventListeners
