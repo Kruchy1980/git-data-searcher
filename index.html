@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git-Data-Searcher</title>
+    <!-- Bookmark icon -->
+    <link rel="icon" href="./bookmark-icon/github.png" type="icon/png" />
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="./search.css" />
+</head>
+
+<body>
+    <header>
+        <h1>GitHub Data Searcher</h1>
+    </header>
+    <section id="searcher-main">
+        <form action="#" id="searcher">
+            <label>Who are you looking for<span id="userSearch">?</span>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter user GitHub login ..."
+          />
+        </label>
+            <button id="btnGenerate">Generate</button>
+
+        </form>
+    </section>
+    <section id="display-data-main">
+        <div id="user-avatar"></div>
+        <div id="user-info">
+            <h2>Github Data: </h2>
+        </div>
+        <div id="login"></div>
+        <div id="github-account"></div>
+        <div id="repositories">
+        </div>
+        <ul id="repos-list"></ul>
+        <div id="languages"></div>
+        <ul id="languages-list"></ul>
+
+    </section>
+    <script src="./search.js"></script>
+    <script src="./main-log.js"></script>
+
+
+</body>
+
+</html>
