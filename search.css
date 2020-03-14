@@ -128,7 +128,8 @@ header h1 {
 
 /*  Github account li element */
 
-#github-account li {
+#github-account li,
+#repositories li {
     line-height: 22px;
 }
 
@@ -141,13 +142,6 @@ header h1 {
     height: 100px;
     overflow: auto;
     margin-top: -19px;
-}
-
-
-/* repositories li display */
-
-#repositories li {
-    line-height: 22px;
 }
 
 
