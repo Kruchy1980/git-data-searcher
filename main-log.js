@@ -34,88 +34,98 @@ const generate = () => {
     }
 };
 // 2.2 Get Repos
-const getRepos = async() => {
-        reposList.innerHTML = '';
-        //Public repositories of user search
-        const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
+const getRepos = async () => {
+    reposList.innerHTML = '';
+    //Public repositories of user search
+    const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
 
-        // fetching the data variable
-        const response = await fetch(url);
-        // result variable jason parse response
-        const result = await response.json()
-            //creating array from with specified data from results
-        let result1 = result.map(el => el.name)
-        let result2 = result.map(el => el.html_url);
-        // repositories label
-        displayRepositories.innerHTML = `<span>Repositories: <span>`;
-        //Displaying list of repositories
-        for (let i = 0; i < result1.length; i++) {
-            reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
-        }
-
-
+    // fetching the data variable
+    const response = await fetch(url);
+    // result variable jason parse response
+    const result = await response.json()
+    //creating array from with specified data from results
+    let result1 = result.map(el => el.name)
+    let result2 = result.map(el => el.html_url);
+    // repositories label
+    displayRepositories.innerHTML = `<span>Repositories: <span>`;
+    //Displaying list of repositories
+    for (let i = 0; i < result1.length; i++) {
+        reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
     }
-    // 2.3 Get Avatar
-const getAvatar = async() => {
-        displayAvatar.innerHTML = '';
 
-        const url = `https://api.github.com/search/users?q=user:${username.value}`;
 
-        const response = await fetch(url);
+}
+// 2.3 Get Avatar
+const getAvatar = async () => {
+    displayAvatar.innerHTML = '';
 
-        const result = await response.json()
+    const url = `https://api.github.com/search/users?q=user:${username.value}`;
 
-        result.items.forEach(item => {
+    const response = await fetch(url);
 
-            displayAvatar.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
-        });
-    }
-    // 2.4 Get userLogin
-const getUserData = async() => {
-        //clearing field
-        displayGithubAccount.innerHTML = '';
-        const url = `https://api.github.com/users/${username.value}`;
+    const result = await response.json()
 
-        const response = await fetch(url);
+    result.items.forEach(item => {
 
-        const result = await response.json();
+        displayAvatar.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
+    });
+}
+// 2.4 Get userLogin
+const getUserData = async () => {
+    //clearing field
+    displayGithubAccount.innerHTML = '';
+    const url = `https://api.github.com/users/${username.value}`;
+
+    const response = await fetch(url);
+
+    const result = await response.json();
+
+    // conditional statement
+    if (username.value = result.login) {
 
         displayLogin.innerHTML = `<span>Username: </span>`;
         displayLogin.innerHTML += `<ul><li>${result.login}</li></ul>`
-            // Github account display
+        // Github account display
         displayGithubAccount.innerHTML = `<span>Github Account: </span>`
         displayGithubAccount.innerHTML += `<ul><li><a href="${result.html_url}" target="_blank">${result.html_url}</a></li></ul>`
+    } else {
+        alert(`There is not such a user!`);
     }
-    //2.5 Get languages
-const getLangAverage = async() => {
-        //clearing field
-        languagesList.innerHTML = '';
-        const url = `https://api.github.com/users/${username.value}/repos`;
+}
 
-        const response = await fetch(url);
+//2.5 Get languages
+const getLangAverage = async () => {
+    //clearing field
+    languagesList.innerHTML = '';
 
-        const result = await response.json();
-        // languages calculation
-        let count = {};
-        result.map(el => count[el.language] = (count[el.language] || 0) + 1);
-        // extracting languages names
-        const language = Object.keys(count).join(',');
-        // extracting languages values
-        const langValues = Object.values(count);
-        //creatihg array with keywords
-        const langArray = language.split(',');
-        // Creating an array of percentage usage of languages
-        let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
+    const url = `https://api.github.com/users/${username.value}/repos`;
 
-        // languages display
-        displayLanguages.innerHTML = `<span>Languages:</span>`
+    const response = await fetch(url);
 
-        for (let i = 0; i < (langArray.length); i++) {
-            languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
-        }
+    const result = await response.json();
+    // languages calculation
+    let count = {};
+    result.map(el => count[el.language] = (count[el.language] || 0) + 1);
+    // extracting languages names
+    const language = Object.keys(count).join(',');
+    // extracting languages values
+    const langValues = Object.values(count);
+    //creatihg array with keywords
+    const langArray = language.split(',');
+    // Creating an array of percentage usage of languages
+    let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
+
+    // languages display
+    displayLanguages.innerHTML = `<span>Languages:</span>`
+
+    for (let i = 0; i < (langArray.length); i++) {
+        languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
     }
-    //3. EventListeners
-    //3.1 Main/Generate button
+}
+
+
+//3. EventListeners
+//3.1 Main/Generate button
 btnGenerate.addEventListener('click', generate);
 // // disarm the username searcher form
 searchForm.addEventListener('submit', (event) => {
