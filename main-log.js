@@ -72,50 +72,60 @@ const getAvatar = async() => {
     }
     // 2.4 Get userLogin
 const getUserData = async() => {
-        //clearing field
-        displayGithubAccount.innerHTML = '';
-        const url = `https://api.github.com/users/${username.value}`;
+    //clearing field
+    displayGithubAccount.innerHTML = '';
+    const url = `https://api.github.com/users/${username.value}`;
 
-        const response = await fetch(url);
+    const response = await fetch(url);
 
-        const result = await response.json();
+    const result = await response.json();
+
+    // conditional statement
+    if (username.value = result.login) {
 
         displayLogin.innerHTML = `<span>Username: </span>`;
         displayLogin.innerHTML += `<ul><li>${result.login}</li></ul>`
             // Github account display
         displayGithubAccount.innerHTML = `<span>Github Account: </span>`
         displayGithubAccount.innerHTML += `<ul><li><a href="${result.html_url}" target="_blank">${result.html_url}</a></li></ul>`
+    } else {
+        alert(`There is not such an user!`);
     }
-    //2.5 Get languages
+}
+
+//2.5 Get languages
 const getLangAverage = async() => {
-        //clearing field
-        languagesList.innerHTML = '';
-        const url = `https://api.github.com/users/${username.value}/repos`;
+    //clearing field
+    languagesList.innerHTML = '';
 
-        const response = await fetch(url);
+    const url = `https://api.github.com/users/${username.value}/repos`;
 
-        const result = await response.json();
-        // languages calculation
-        let count = {};
-        result.map(el => count[el.language] = (count[el.language] || 0) + 1);
-        // extracting languages names
-        const language = Object.keys(count).join(',');
-        // extracting languages values
-        const langValues = Object.values(count);
-        //creatihg array with keywords
-        const langArray = language.split(',');
-        // Creating an array of percentage usage of languages
-        let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
+    const response = await fetch(url);
 
-        // languages display
-        displayLanguages.innerHTML = `<span>Languages:</span>`
+    const result = await response.json();
+    // languages calculation
+    let count = {};
+    result.map(el => count[el.language] = (count[el.language] || 0) + 1);
+    // extracting languages names
+    const language = Object.keys(count).join(',');
+    // extracting languages values
+    const langValues = Object.values(count);
+    //creatihg array with keywords
+    const langArray = language.split(',');
+    // Creating an array of percentage usage of languages
+    let langPercentage = Array.from(langValues, el => Math.round((el / result.length) * 100) + '%');
 
-        for (let i = 0; i < (langArray.length); i++) {
-            languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
-        }
+    // languages display
+    displayLanguages.innerHTML = `<span>Languages:</span>`
+
+    for (let i = 0; i < (langArray.length); i++) {
+        languagesList.innerHTML += `<li>${langArray[i] === 'null' ? 'No Data' : langArray[i]}: ${langPercentage[i]}</li>`;
     }
-    //3. EventListeners
-    //3.1 Main/Generate button
+}
+
+
+//3. EventListeners
+//3.1 Main/Generate button
 btnGenerate.addEventListener('click', generate);
 // // disarm the username searcher form
 searchForm.addEventListener('submit', (event) => {
