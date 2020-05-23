@@ -26,10 +26,11 @@ Do stworzenia tej aplikacji użyto poniżej wymienionych technologii:
 4. GitHub rest api v3
 
 **Usability**
-When we want to use that application we need to enter login of the user we are looking for in the input file, than press enter or click the "Generate" button and we will get the specified users data.
+When we want to use that application we need to enter login of the user we are looking for in the input file, than press enter or click the "Generate" button and we will get the specified users data. After getting the data we can click on the specified links to proceed to specified repository in git or to general git repository of user.
 
 **Użycie**
 Jeśli chcemy wyszukać podstawowych danych osoby korzystającej z Git'a musimy wpisać jego login w pole Input, a następnie naciskając klawisz enter lub klikając w przycisk "Generate" wydobywamy jego dane, które zostały opisane powyżej - w początkowym opisie aplikacji.
+Możemy również kliknąć na linki aby przenieść się do danego repozytorium Git użytkownika lub też do jego głównej strony.
 
 
 **Warning**
@@ -39,7 +40,9 @@ The usage of the application is restricted by git hub creators and we can send o
 Używanie tej aplikacji jest ograniczone przez twórców Git Hub'a, i możemy wysyłać tylko ograniczoną liczbę zapytań na godzinę - odświeżane co godzinę.
 
 **Application securities**
-If we enter wrong name of user there is an alert appear which inform us that "There is not such an user and if we do not type in the user login at all the  communicate "Enter user Github Login" appeares in alert
+If we enter wrong name of user there is an alert appear which inform us that "There is not such an user and if we do not type in the user login at all the  communicate "Enter user Github Login" appeares in alert.
+We can use the lowercase characters to get the user data.
 
 **Zabezpieczenia aplikacji**
 Jeżeli wpiszemy zły login użytkownika, to w alercie pojawi się informujący nas o tym komunikat, tak samo stanie się, jeżeli w ogóle nie podamy użytkownika.
+Możemy uzywać małych liter aby otrzymać interesujące nas dane.
