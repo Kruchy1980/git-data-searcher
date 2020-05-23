@@ -34,44 +34,44 @@ const generate = () => {
     }
 };
 // 2.2 Get Repos
-const getRepos = async () => {
-    reposList.innerHTML = '';
-    //Public repositories of user search
-    const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
+const getRepos = async() => {
+        reposList.innerHTML = '';
+        //Public repositories of user search
+        const url = `https://api.github.com/users/${username.value}/repos?q=type:all`;
 
-    // fetching the data variable
-    const response = await fetch(url);
-    // result variable jason parse response
-    const result = await response.json()
-    //creating array from with specified data from results
-    let result1 = result.map(el => el.name)
-    let result2 = result.map(el => el.html_url);
-    // repositories label
-    displayRepositories.innerHTML = `<span>Repositories: <span>`;
-    //Displaying list of repositories
-    for (let i = 0; i < result1.length; i++) {
-        reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
+        // fetching the data variable
+        const response = await fetch(url);
+        // result variable jason parse response
+        const result = await response.json()
+            //creating array from with specified data from results
+        let result1 = result.map(el => el.name)
+        let result2 = result.map(el => el.html_url);
+        // repositories label
+        displayRepositories.innerHTML = `<span>Repositories: <span>`;
+        //Displaying list of repositories
+        for (let i = 0; i < result1.length; i++) {
+            reposList.innerHTML += `<li>${result1[i]}<br><a href="${result2[i]}">${result2[i]}</a></li>`;
+        }
+
+
     }
+    // 2.3 Get Avatar
+const getAvatar = async() => {
+        displayAvatar.innerHTML = '';
 
+        const url = `https://api.github.com/search/users?q=user:${username.value}`;
 
-}
-// 2.3 Get Avatar
-const getAvatar = async () => {
-    displayAvatar.innerHTML = '';
+        const response = await fetch(url);
 
-    const url = `https://api.github.com/search/users?q=user:${username.value}`;
+        const result = await response.json()
 
-    const response = await fetch(url);
+        result.items.forEach(item => {
 
-    const result = await response.json()
-
-    result.items.forEach(item => {
-
-        displayAvatar.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
-    });
-}
-// 2.4 Get userLogin
-const getUserData = async () => {
+            displayAvatar.innerHTML += `<img src="${item.avatar_url}" alt="${item.login} width="50px" height="50px"/>`;
+        });
+    }
+    // 2.4 Get userLogin
+const getUserData = async() => {
     //clearing field
     displayGithubAccount.innerHTML = '';
     const url = `https://api.github.com/users/${username.value}`;
@@ -85,16 +85,16 @@ const getUserData = async () => {
 
         displayLogin.innerHTML = `<span>Username: </span>`;
         displayLogin.innerHTML += `<ul><li>${result.login}</li></ul>`
-        // Github account display
+            // Github account display
         displayGithubAccount.innerHTML = `<span>Github Account: </span>`
         displayGithubAccount.innerHTML += `<ul><li><a href="${result.html_url}" target="_blank">${result.html_url}</a></li></ul>`
     } else {
-        alert(`There is not such a user!`);
+        alert(`There is not such an user!`);
     }
 }
 
 //2.5 Get languages
-const getLangAverage = async () => {
+const getLangAverage = async() => {
     //clearing field
     languagesList.innerHTML = '';
 
